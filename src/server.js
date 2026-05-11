@@ -13,6 +13,7 @@ import { usersRoutes } from './routes/users/users.routes.js'
 import { coursesRoutes } from './routes/courses/courses.routes.js'
 import { classesRoutes } from './routes/classes/classes.routes.js'
 import { studentsRoutes } from './routes/students/students.routes.js'
+import { attendancesRoutes } from './routes/attendances/attendances.routes.js'
 
 const fastify = Fastify({
     logger: true
@@ -54,6 +55,10 @@ fastify.register(classesRoutes, {
 
 fastify.register(studentsRoutes, {
     prefix: '/students'
+})
+
+fastify.register(attendancesRoutes, {
+    prefix: '/attendances'
 })
 
 // server root route
