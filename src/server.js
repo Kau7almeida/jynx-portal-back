@@ -20,7 +20,9 @@ const fastify = Fastify({
 })
 
 await fastify.register(fastifyCors, {
-    origin: true
+    origin: true,
+    methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 })
 
 await fastify.register(fastifySwagger, {
