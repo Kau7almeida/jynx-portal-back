@@ -59,4 +59,79 @@ export async function attendancesRoutes(fastify) {
         }
     }, attendancesController.register)
 
+    fastify.delete("/delete/:id", {
+        schema: {
+            description: "Remove a presença de um aluno",
+            tags: ["Attendances"],
+            params: {
+                type: "object",
+                properties: {
+                    id: { type: "number" }
+                },
+                required: ["id"]
+            },
+            response: {
+                200: {
+                    description: "OK",
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            }
+        }
+    }, attendancesController.delete)
+
+    fastify.delete("/delete-many", {
+        schema: {
+            description: "Remove várias presenças de uma vez",
+            tags: ["Attendances"],
+            body: {
+                type: "object",
+                properties: {
+                    ids: {
+                        type: "array",
+                        items: { type: "number" },
+                        minItems: 1
+                    },
+                    classId: { type: "number" }
+                },
+                required: ["ids"]
+            },
+            response: {
+                200: {
+                    description: "OK",
+                    type: "object",
+                    properties: {
+                        message: { type: "string" },
+                        deletedCount: { type: "number" }
+                    }
+                }
+            }
+        }
+    }, attendancesController.deleteMany)
+
+    fastify.delete("/delete-all/:classId", {
+        schema: {
+            description: "Remove todas as presenças de uma turma",
+            tags: ["Attendances"],
+            params: {
+                type: "object",
+                properties: {
+                    classId: { type: "number" }
+                },
+                required: ["classId"]
+            },
+            response: {
+                200: {
+                    description: "OK",
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            }
+        }
+    }, attendancesController.deleteAllByClass)
+
 }

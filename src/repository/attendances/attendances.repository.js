@@ -28,4 +28,32 @@ export class AttendancesRepository {
         `;
     }
 
+    delete = async (req, reply) => {
+        const { id } = req.params;
+        return sql`DELETE FROM attendances WHERE id = ${id}`;
+    }
+
+    deleteMany = async (req, reply) => {
+        const { ids, classId } = req.body;
+        const uniqueIds = [...new Set(ids.map(Number).filter(Number.isInteger))];
+        const hasClassId = Number.isInteger(Number(classId));
+
+        if (uniqueIds.length === 0) {
+            return 0;
+        }
+
+        const deletions = await Promise.all(uniqueIds.map((id) => (
+            hasClassId
+                ? sql`DELETE FROM attendances WHERE id = ${id} AND fk_class = ${Number(classId)} RETURNING id`
+                : sql`DELETE FROM attendances WHERE id = ${id} RETURNING id`
+        )));
+
+        return deletions.flat().length;
+    }
+
+    deleteAllByClass = async (req, reply) => {
+        const { classId } = req.params;
+        return sql`DELETE FROM attendances WHERE fk_class = ${classId}`;
+    }
+
 }
