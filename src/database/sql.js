@@ -1,2 +1,2 @@
 import { neon } from "@neondatabase/serverless";
-export const sql = neon("postgresql://neondb_owner:npg_umfRNSA4nqM1@ep-plain-king-ap028sk5-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require");
+export const sql = neon(process.env.DATABASE_URL);
